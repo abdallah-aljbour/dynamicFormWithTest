@@ -4,7 +4,7 @@ interface InputFieldProps { //this the structure of the props that the component
   type: string;
   name: string;
   label: string;
-  value: string;
+  value: string | number;
   onChange: (value: string) => void;
   placeholder?: string;
   required?: boolean;
