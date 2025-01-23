@@ -1,23 +1,23 @@
 import React from 'react';
 
-interface SelectFieldProps { // Define the props that the component will receive
+interface SelectFieldProps {
   name: string;
   label: string;
   value: string;
   onChange: (value: string) => void;
   options: { value: string; label: string }[];
   required?: boolean;
-  errorMessage?: string;
+  error?: string; // Add error prop
 }
 
-const SelectField: React.FC<SelectFieldProps> = ({ // Define the component and its props type using the interface defined above 
+const SelectField: React.FC<SelectFieldProps> = ({
   name,
   label,
   value,
   onChange,
   options,
   required,
-  errorMessage,
+  error, // Destructure error prop
 }) => {
   return (
     <div>
@@ -35,7 +35,7 @@ const SelectField: React.FC<SelectFieldProps> = ({ // Define the component and i
           </option>
         ))}
       </select>
-      {errorMessage && <span style={{ color: 'red' }}>{errorMessage}</span>}
+      {error && <span style={{ color: 'red' }}>{error}</span>} {/* Display error message */}
     </div>
   );
 };

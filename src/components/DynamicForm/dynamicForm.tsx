@@ -4,54 +4,65 @@ import InputField from '../InputField/InputField';
 import SelectField from '../SelectField/SelectField';
 import CheckboxField from '../CheckboxField/CheckboxField';
 import Button from '../Button/Button';
+import styles from './Dynamic Form.module.scss';
 
 const DynamicForm: React.FC = () => {
-  const { formValues, handleChange, handleSubmit, fields } = useDynamicForm();
-  
+  const { formValues, errors, handleChange, handleSubmit, fields } = useDynamicForm();
+
   return (
-    <form onSubmit={handleSubmit} role="form">
+    <form onSubmit={handleSubmit} role="form" className={styles['dynamic-form']}>
       {fields.map((field) => {
+        const baseClassName = `${styles['dynamic-form__field']} ${
+          errors[field.name] ? styles['dynamic-form__field--error'] : ''
+        }`;
+
         if (field.type === 'select') {
           return (
-            <SelectField
-              key={field.name}
-              name={field.name}
-              label={field.label}
-              value={formValues[field.name] as string}
-              onChange={(value) => handleChange(field.name, value)}
-              options={field.options || []}
-              required={field.required}
-              errorMessage={field.validation?.errorMessage}
-            />
+            <div key={field.name} className={baseClassName}>
+              <SelectField
+                name={field.name}
+                label={field.label}
+                value={formValues[field.name] as string}
+                onChange={(value) => handleChange(field.name, value)}
+                options={field.options || []}
+                required={field.required}
+                error={errors[field.name]} // Pass error prop
+              />
+            </div>
           );
         } else if (field.type === 'checkbox') {
           return (
-            <CheckboxField
-              key={field.name}
-              name={field.name}
-              label={field.label}
-              checked={!!formValues[field.name]}
-              onChange={(value) => handleChange(field.name, value)}
-              required={field.required}
-              errorMessage={field.validation?.errorMessage}
-            />
+            <div key={field.name} className={baseClassName}>
+              <CheckboxField
+                name={field.name}
+                label={field.label}
+                checked={!!formValues[field.name]}
+                onChange={(value) => handleChange(field.name, value)}
+                required={field.required}
+                error={errors[field.name]} // Pass error prop
+              />
+            </div>
           );
         } else {
           return (
-            <InputField
-              key={field.name}
-              type={field.type}
-              name={field.name}
-              label={field.label}
-              value={formValues[field.name] as string | number}
-              onChange={(value) => handleChange(field.name, value)}
-              placeholder={field.placeholder}
-              required={field.required}
-            />
+            <div key={field.name} className={baseClassName}>
+              <InputField
+                type={field.type}
+                name={field.name}
+                label={field.label}
+                value={formValues[field.name] as string | number}
+                onChange={(value) => handleChange(field.name, value)}
+                placeholder={field.placeholder}
+                required={field.required}
+                error={errors[field.name]} // Pass error prop
+              />
+            </div>
           );
         }
       })}
-      <Button type="submit">Submit</Button>
+      <div className={styles['dynamic-form__submit']}>
+        <Button type="submit">Submit</Button>
+      </div>
     </form>
   );
 };

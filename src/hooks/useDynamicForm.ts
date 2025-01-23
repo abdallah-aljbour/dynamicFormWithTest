@@ -1,42 +1,82 @@
 import { useState } from 'react';
 import formConfig from '../config/formConfig.json';
 
-interface FieldConfig { // Define the structure of the form fields
+interface FieldConfig {
   type: string;
   name: string;
   label: string;
   placeholder?: string;
   required?: boolean;
-  options?: Array<{
-    value: string;
-    label: string;
-  }>;
+  options?: Array<{ value: string; label: string }>;
   validation?: {
     regex?: string;
     errorMessage?: string;
   };
 }
 
-const useDynamicForm = () => {  // Create a custom hook for handling dynamic forms
-  const [formValues, setFormValues] = useState<{ [key: string]: string | boolean }>({}); // Initialize form values as an empty object
+const useDynamicForm = () => {
+  const [formValues, setFormValues] = useState<{ [key: string]: string | boolean }>({});
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const handleChange = (name: string, value: string | boolean) => { // Create a function to handle form field changes
-    setFormValues((prevValues) => ({
-      ...prevValues, // Spread the previous form values
-      [name]: value, // Update the form field with the new value
-    }));
+  const validateField = (name: string, value: string | boolean) => {
+    const fieldConfig = formConfig.fields.find((field) => field.name === name);
+    if (!fieldConfig || !fieldConfig.validation) return true;
+
+    const { regex, errorMessage } = fieldConfig.validation;
+
+    if (typeof value === 'string' && regex) {
+      const isValid = new RegExp(regex).test(value);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: isValid ? '' : errorMessage || 'Invalid input',
+      }));
+      return isValid;
+    }
+
+    if (typeof value === 'boolean' && fieldConfig.required) {
+      const isValid = value === true;
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: isValid ? '' : errorMessage || 'This field is required',
+      }));
+      return isValid;
+    }
+
+    return true;
   };
 
-  const handleSubmit = (e: React.FormEvent) => { // Create a function to handle form submission
+  const handleChange = (name: string, value: string | boolean) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [name]: value,
+    }));
+    validateField(name, value);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form Values:', formValues); // Ensure this matches the expected format
+
+    let isValid = true;
+    formConfig.fields.forEach((field) => {
+      const fieldValue = formValues[field.name];
+      if (!validateField(field.name, fieldValue)) {
+        isValid = false;
+      }
+    });
+
+    if (isValid) {
+      console.log('Form submitted successfully:', formValues);
+    } else {
+      console.log('Form has errors');
+    }
   };
 
   return {
     formValues,
+    errors,
     handleChange,
     handleSubmit,
-    fields: formConfig.fields as FieldConfig[], // Return the form fields from the form configuration file as FieldConfig[] 
+    fields: formConfig.fields as FieldConfig[],
   };
 };
 
