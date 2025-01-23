@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import formConfig from '../config/formConfig.json';
 
-interface FieldConfig { // Define the shape of the field configuration
+interface FieldConfig { // Define the structure of the form fields
   type: string;
   name: string;
   label: string;
@@ -11,15 +11,19 @@ interface FieldConfig { // Define the shape of the field configuration
     value: string;
     label: string;
   }>;
+  validation?: {
+    regex?: string;
+    errorMessage?: string;
+  };
 }
 
 const useDynamicForm = () => {  // Create a custom hook for handling dynamic forms
-  const [formValues, setFormValues] = useState<{ [key: string]: string }>({}); // Initialize form values as an empty object
+  const [formValues, setFormValues] = useState<{ [key: string]: string | boolean }>({}); // Initialize form values as an empty object
 
-  const handleChange = (name: string, value: string) => { // Create a function to update form values
-    setFormValues((prevValues) => ({ // Update the form values based on the input field name and value
-      ...prevValues,
-      [name]: value,
+  const handleChange = (name: string, value: string | boolean) => { // Create a function to handle form field changes
+    setFormValues((prevValues) => ({
+      ...prevValues, // Spread the previous form values
+      [name]: value, // Update the form field with the new value
     }));
   };
 
