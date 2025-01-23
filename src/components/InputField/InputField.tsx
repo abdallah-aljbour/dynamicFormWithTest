@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface InputFieldProps { //this the structure of the props that the component will receive
+interface InputFieldProps {
   type: string;
   name: string;
   label: string;
@@ -8,28 +8,31 @@ interface InputFieldProps { //this the structure of the props that the component
   onChange: (value: string) => void;
   placeholder?: string;
   required?: boolean;
+  error?: string; // Add error prop
 }
 
-const InputField: React.FC<InputFieldProps> = ({ 
+const InputField: React.FC<InputFieldProps> = ({
   type,
   name,
   label,
   value,
-  onChange, //this is a function that will be called when the input value changes
+  onChange,
   placeholder,
   required,
+  error, // Destructure error prop
 }) => {
-  return ( //
+  return (
     <div>
-      <label htmlFor={name}>{label}</label> 
+      <label htmlFor={name}>{label}</label>
       <input
-        id={name} //id is used to associate the input field with the label
+        id={name}
         type={type}
         value={value}
-        onChange={(e) => onChange(e.target.value)} 
+        onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         required={required}
       />
+      {error && <span style={{ color: 'red' }}>{error}</span>} {/* Display error message */}
     </div>
   );
 };

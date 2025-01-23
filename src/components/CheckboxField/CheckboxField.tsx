@@ -1,12 +1,12 @@
 import React from 'react';
 
-interface CheckboxFieldProps { // Define the structure of the props that the component will receive
+interface CheckboxFieldProps {
   name: string;
   label: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
   required?: boolean;
-  errorMessage?: string; // Error message for validation
+  error?: string; // Add error prop
 }
 
 const CheckboxField: React.FC<CheckboxFieldProps> = ({
@@ -15,7 +15,7 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
   checked,
   onChange,
   required,
-  errorMessage,
+  error, // Destructure error prop
 }) => {
   return (
     <div>
@@ -26,16 +26,10 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
           required={required}
-          aria-invalid={!!errorMessage} // Indicate if the field is invalid
-          aria-describedby={errorMessage ? `${name}-error` : undefined} // Link error message
         />
         {label}
       </label>
-      {errorMessage && (
-        <span id={`${name}-error`} style={{ color: 'red' }}>
-          {errorMessage}
-        </span>
-      )}
+      {error && <span style={{ color: 'red' }}>{error}</span>} {/* Display error message */}
     </div>
   );
 };
