@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "jest",
-     "test:verbose": "jest --verbose"
+    "test:verbose": "jest --verbose"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -23,6 +23,8 @@
     "@types/jest": "^29.5.14",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
+    "@types/testing-library__jest-dom": "^5.14.9",
+    "@types/testing-library__react-hooks": "^3.4.1",
     "@vitejs/plugin-react": "^4.3.4",
     "eslint": "^9.17.0",
     "eslint-plugin-react-hooks": "^5.0.0",
