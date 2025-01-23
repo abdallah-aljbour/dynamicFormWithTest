@@ -68,6 +68,15 @@
       "validation": {
         "errorMessage": "Please select a country."
       }
+    },
+    {
+      "type": "checkbox",
+      "name": "agreeToTerms",
+      "label": "I agree to the terms and conditions",
+      "required": true,
+      "validation": {
+        "errorMessage": "You must agree to the terms and conditions."
+      }
     }
   ]
 }
