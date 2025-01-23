@@ -7,6 +7,10 @@ interface FieldConfig { // Define the shape of the field configuration
   label: string;
   placeholder?: string;
   required?: boolean;
+  options?: Array<{
+    value: string;
+    label: string;
+  }>;
 }
 
 const useDynamicForm = () => {  // Create a custom hook for handling dynamic forms

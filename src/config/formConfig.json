@@ -2,17 +2,72 @@
   "fields": [
     {
       "type": "text",
-      "name": "username",
-      "label": "Username",
-      "placeholder": "Enter your username",
-      "required": true
+      "name": "fullName",
+      "label": "Full Name",
+      "placeholder": "Enter your full name",
+      "required": true,
+      "validation": {
+        "regex": "^[A-Za-z ]{3,}$",
+        "errorMessage": "Full Name must be at least 3 characters and contain only letters and spaces."
+      }
+    },
+    {
+      "type": "email",
+      "name": "email",
+      "label": "Email Address",
+      "placeholder": "Enter your email address",
+      "required": true,
+      "validation": {
+        "regex": "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$",
+        "errorMessage": "Please enter a valid email address."
+      }
     },
     {
       "type": "password",
       "name": "password",
       "label": "Password",
       "placeholder": "Enter your password",
-      "required": true
+      "required": true,
+      "validation": {
+        "regex": "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+        "errorMessage": "Password must be at least 8 characters, include a letter, a number, and a special character."
+      }
+    },
+    {
+      "type": "tel",
+      "name": "phoneNumber",
+      "label": "Phone Number",
+      "placeholder": "Enter your phone number",
+      "required": true,
+      "validation": {
+        "regex": "^[0-9]{10,}$",
+        "errorMessage": "Phone Number must be at least 10 digits."
+      }
+    },
+    {
+      "type": "number",
+      "name": "age",
+      "label": "Age",
+      "placeholder": "Enter your age",
+      "required": true,
+      "validation": {
+        "regex": "^[1-9][0-9]?$|^100$",
+        "errorMessage": "Age must be between 1 and 100."
+      }
+    },
+    {
+      "type": "select",
+      "name": "country",
+      "label": "Country",
+      "options": [
+        { "value": "us", "label": "United States" },
+        { "value": "ca", "label": "Canada" },
+        { "value": "uk", "label": "United Kingdom" }
+      ],
+      "required": true,
+      "validation": {
+        "errorMessage": "Please select a country."
+      }
     }
   ]
 }
