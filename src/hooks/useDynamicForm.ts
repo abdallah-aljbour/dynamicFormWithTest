@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import formConfig from '../config/formConfig.json';
 
 interface FieldConfig {
@@ -17,33 +17,54 @@ interface FieldConfig {
 const useDynamicForm = () => {
   const [formValues, setFormValues] = useState<{ [key: string]: string | boolean }>({});
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const validateField = (name: string, value: string | boolean) => {
     const fieldConfig = formConfig.fields.find((field) => field.name === name);
-    if (!fieldConfig || !fieldConfig.validation) return true;
+    if (!fieldConfig) return true;
 
-    const { regex, errorMessage } = fieldConfig.validation;
+    let isValid = true;
+    let errorMessage = '';
 
-    if (typeof value === 'string' && regex) {
-      const isValid = new RegExp(regex).test(value);
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: isValid ? '' : errorMessage || 'Invalid input',
-      }));
-      return isValid;
+    // Validation for required fields
+    if (fieldConfig.required) {
+      if (value === '' || value === false || value === undefined) {
+        isValid = false;
+        errorMessage = fieldConfig.validation?.errorMessage || `${fieldConfig.label} is required`;
+      }
     }
 
-    if (typeof value === 'boolean' && fieldConfig.required) {
-      const isValid = value === true;
-      setErrors((prevErrors) => ({
-        ...prevErrors,
-        [name]: isValid ? '' : errorMessage || 'This field is required',
-      }));
-      return isValid;
+    // Additional regex validation if exists
+    if (isValid && fieldConfig.validation?.regex && typeof value === 'string') {
+      isValid = new RegExp(fieldConfig.validation.regex).test(value);
+      if (!isValid) {
+        errorMessage = fieldConfig.validation.errorMessage || 'Invalid input';
+      }
     }
 
-    return true;
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: isValid ? '' : errorMessage,
+    }));
+
+    return isValid;
   };
+
+  useEffect(() => {
+    // Check if all required fields are filled
+    const allFieldsFilled = formConfig.fields.every((field) => {
+      const value = formValues[field.name];
+      if (field.required) {
+        return value !== '' && value !== false && value !== undefined;
+      }
+      return true;
+    });
+
+    // Check if there are no errors
+    const noErrors = Object.values(errors).every((error) => error === '');
+
+    setIsFormValid(allFieldsFilled && noErrors);
+  }, [formValues, errors]);
 
   const handleChange = (name: string, value: string | boolean) => {
     setFormValues((prevValues) => ({
@@ -55,7 +76,8 @@ const useDynamicForm = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    
+   
     let isValid = true;
     formConfig.fields.forEach((field) => {
       const fieldValue = formValues[field.name];
@@ -76,6 +98,7 @@ const useDynamicForm = () => {
     errors,
     handleChange,
     handleSubmit,
+    isFormValid,
     fields: formConfig.fields as FieldConfig[],
   };
 };

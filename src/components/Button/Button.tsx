@@ -1,14 +1,34 @@
-import React from 'react';
+;import React from 'react';
+import styles from './Button.module.scss';
 
 interface ButtonProps {
-  type?: 'button' | 'submit' | 'reset'; // Type of the button (default is 'button')
-  onClick?: () => void; // Optional: Click handler
-  children: React.ReactNode; // Content of the button (e.g., text or icons)
+  type?: 'button' | 'submit' | 'reset';
+  onClick?: () => void;
+  children: React.ReactNode;
+  disabled?: boolean;
+  className?: string;
 }
 
-const Button: React.FC<ButtonProps> = ({ type = 'button', onClick, children }) => { //children is the content of the button
+const Button: React.FC<ButtonProps> = ({ 
+  type = 'button', 
+  onClick, 
+  children, 
+  disabled = false,
+  className = ''
+}) => {
+  const buttonClasses = `
+    ${styles.button} 
+    ${disabled ? styles['button--disabled'] : ''} 
+    ${className}
+  `.trim();
+
   return (
-    <button type={type} onClick={onClick}>
+    <button 
+      type={type} 
+      onClick={onClick}
+      disabled={disabled}
+      className={buttonClasses}
+    >
       {children}
     </button>
   );
