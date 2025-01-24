@@ -1,4 +1,4 @@
-import './App.css'
+
 import DynamicForm from './components/DynamicForm/dynamicForm'
 
 function App() {

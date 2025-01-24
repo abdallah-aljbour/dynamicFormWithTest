@@ -60,9 +60,9 @@
       "name": "country",
       "label": "Country",
       "options": [
-        { "value": "us", "label": "United States" },
-        { "value": "ca", "label": "Canada" },
-        { "value": "uk", "label": "United Kingdom" }
+        { "value": "JO", "label": "Jordan" },
+        { "value": "PA", "label": "Palestine" },
+        { "value": "KSA", "label": "Saudi Arabia" }
       ],
       "required": true,
       "validation": {
