@@ -1,8 +1,104 @@
+// .dynamic-form {
+//   width: 31.25rem;
+//   margin: 2rem auto;
+//   padding: 2rem;
+//   background-color: #ffffff; // White background
+//   border-radius: 12px;
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+//   @media (max-width: 768px) {
+//     max-width: 100%;
+//     margin: 1rem;
+//     padding: 1.5rem;
+//   }
+
+//   &__field {
+//     margin-bottom: 1.5rem;
+//     position: relative;
+
+//     &--error {
+//       input,
+//       select {
+//         border-color: #e74c3c; // Red border for error
+//       }
+
+//       .dynamic-form__error-message {
+//         display: block;
+//       }
+//     }
+
+//     label {
+//       display: block;
+//       margin-bottom: 0.5rem;
+//       font-weight: 600;
+//       color: #000000; 
+//     }
+
+//     input,
+//     select {
+//       width: 100%;
+//       padding: 0.75rem;
+//       border: 1px solid #000000; // Black border
+//       border-radius: 8px;
+//       transition: all 0.3s ease;
+
+//       &:focus {
+//         outline: none;
+//         border-color: #000000; // Black border on focus
+//         box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1); // Black shadow on focus
+//       }
+//     }
+
+//     &__error-message {
+//       display: none;
+//       color: #e74c3c; // Red error message
+//       font-size: 0.875rem;
+//       margin-top: 0.5rem;
+//       position: absolute;
+//     }
+
+//     &--checkbox {
+//       display: flex;
+//       align-items: center;
+
+//       input[type="checkbox"] {
+//         width: auto;
+//         margin-right: 0.75rem;
+//       }
+//     }
+//   }
+
+//   &__submit {
+//     display: flex;
+    
+//     margin-top: 1.5rem;
+
+//     button {
+//       padding: 0.75rem 1.5rem;
+//       background-color: #000000; // Black background for button
+//       color: #ffffff; // White text for button
+//       border: none;
+//       border-radius: 8px;
+//       cursor: pointer;
+//       transition: background-color 0.3s ease;
+
+//       &:hover {
+//         background-color: black
+//       }
+
+//       &:disabled {
+//         background-color: #f0f0f0; // Light gray for disabled state
+//         cursor: not-allowed;
+//       }
+//     }
+//   }
+// }
+// DynamicForm.scss
 .dynamic-form {
   width: 31.25rem;
   margin: 2rem auto;
   padding: 2rem;
-  background-color: #ffffff; // White background
+  background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
@@ -19,11 +115,7 @@
     &--error {
       input,
       select {
-        border-color: #e74c3c; // Red border for error
-      }
-
-      .dynamic-form__error-message {
-        display: block;
+        border-color: #e74c3c;
       }
     }
 
@@ -31,63 +123,71 @@
       display: block;
       margin-bottom: 0.5rem;
       font-weight: 600;
-      color: #000000; 
+      color: #000000;
     }
 
     input,
     select {
       width: 100%;
       padding: 0.75rem;
-      border: 1px solid #000000; // Black border
+      border: 1px solid #000000;
       border-radius: 8px;
       transition: all 0.3s ease;
 
+
       &:focus {
         outline: none;
-        border-color: #000000; // Black border on focus
-        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1); // Black shadow on focus
+        border-color: #000000;
+        box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
       }
-    }
-
-    &__error-message {
-      display: none;
-      color: #e74c3c; // Red error message
-      font-size: 0.875rem;
-      margin-top: 0.5rem;
-      position: absolute;
     }
 
     &--checkbox {
       display: flex;
+      justify-content: space-between;
       align-items: center;
+
+      label {
+        order: -1;
+        margin-bottom: 0;
+        display: inline;
+        flex-grow: 1;
+      }
 
       input[type="checkbox"] {
         width: auto;
-        margin-right: 0.75rem;
+        margin-left: 0.75rem;
       }
+    }
+
+    &__error-message {
+      color: #e74c3c;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+      display: block;
+      text-align: left;
     }
   }
 
   &__submit {
     display: flex;
-    
     margin-top: 1.5rem;
 
     button {
       padding: 0.75rem 1.5rem;
-      background-color: #000000; // Black background for button
-      color: #ffffff; // White text for button
+      background-color: #000000;
+      color: #ffffff;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       transition: background-color 0.3s ease;
 
       &:hover {
-        background-color: black
+        background-color: black;
       }
 
       &:disabled {
-        background-color: #f0f0f0; // Light gray for disabled state
+        background-color: #f0f0f0;
         cursor: not-allowed;
       }
     }

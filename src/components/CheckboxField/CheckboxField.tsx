@@ -1,4 +1,5 @@
 import React from 'react';
+import './CheckboxField.scss';
 
 interface CheckboxFieldProps {
   name: string;
@@ -6,7 +7,7 @@ interface CheckboxFieldProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
   required?: boolean;
-  error?: string; // Add error prop
+  error?: string;
 }
 
 const CheckboxField: React.FC<CheckboxFieldProps> = ({
@@ -15,21 +16,24 @@ const CheckboxField: React.FC<CheckboxFieldProps> = ({
   checked,
   onChange,
   required,
-  error, // Destructure error prop
+  error,
 }) => {
   return (
-    <div>
-      <label htmlFor={name}>
+    <div className={`checkbox-field ${error ? 'checkbox-field--error' : ''}`}>
+      <div className="checkbox-field__container">
+        <label htmlFor={name} className="checkbox-field__label">
+          {label}
+        </label>
         <input
           id={name}
           type="checkbox"
           checked={checked}
           onChange={(e) => onChange(e.target.checked)}
           required={required}
+          className={`checkbox-field__input ${error ? 'checkbox-field__error-input' : ''}`}
         />
-        {label}
-      </label>
-      {error && <span style={{ color: 'red' }}>{error}</span>} {/* Display error message */}
+      </div>
+      {error && <span className="checkbox-field__error" style={{ color: 'red' }}>{error}</span>}
     </div>
   );
 };

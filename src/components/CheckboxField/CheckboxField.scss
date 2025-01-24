@@ -1,0 +1,32 @@
+.checkbox-field {
+  margin-bottom: 1.5rem;
+  position: relative;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__input {
+    width: auto;
+    margin-left: -30.25rem;
+  }
+
+  &__label {
+    display: inline;
+    font-weight: 600;
+    color: #000000;
+    flex-grow: 1;
+  }
+
+  &__error {
+    display: block;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+
+    &-input {
+      border-color: #e74c3c;
+    }
+  }
+}
