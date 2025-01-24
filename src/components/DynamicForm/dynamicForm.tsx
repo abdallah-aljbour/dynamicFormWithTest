@@ -7,7 +7,14 @@ import Button from '../Button/Button';
 import styles from './Dynamic Form.module.scss';
 
 const DynamicForm: React.FC = () => {
-  const { formValues, errors, handleChange, handleSubmit, fields } = useDynamicForm();
+  const { 
+    formValues, 
+    errors, 
+    handleChange, 
+    handleSubmit, 
+    isFormValid, 
+    fields 
+  } = useDynamicForm();
 
   return (
     <form onSubmit={handleSubmit} role="form" className={styles['dynamic-form']}>
@@ -15,7 +22,7 @@ const DynamicForm: React.FC = () => {
         const baseClassName = `${styles['dynamic-form__field']} ${
           errors[field.name] ? styles['dynamic-form__field--error'] : ''
         }`;
-
+        
         if (field.type === 'select') {
           return (
             <div key={field.name} className={baseClassName}>
@@ -26,7 +33,7 @@ const DynamicForm: React.FC = () => {
                 onChange={(value) => handleChange(field.name, value)}
                 options={field.options || []}
                 required={field.required}
-                error={errors[field.name]} // Pass error prop
+                error={errors[field.name]}
               />
             </div>
           );
@@ -39,7 +46,7 @@ const DynamicForm: React.FC = () => {
                 checked={!!formValues[field.name]}
                 onChange={(value) => handleChange(field.name, value)}
                 required={field.required}
-                error={errors[field.name]} // Pass error prop
+                error={errors[field.name]}
               />
             </div>
           );
@@ -54,14 +61,19 @@ const DynamicForm: React.FC = () => {
                 onChange={(value) => handleChange(field.name, value)}
                 placeholder={field.placeholder}
                 required={field.required}
-                error={errors[field.name]} // Pass error prop
+                error={errors[field.name]}
               />
             </div>
           );
         }
       })}
       <div className={styles['dynamic-form__submit']}>
-        <Button type="submit">Submit</Button>
+        <Button 
+          type="submit" 
+          disabled={!isFormValid}
+        >
+          Submit
+        </Button>
       </div>
     </form>
   );
